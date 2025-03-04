@@ -11,6 +11,9 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        incorrect: "#B91C1C",
+        correct: "#16A34A",
+        misplaced: "#EAB308",
       },
     },
   },
