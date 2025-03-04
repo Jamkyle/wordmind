@@ -1,12 +1,13 @@
 "use client";
 
+import { useAuthListener } from "@/libs/hooks/useAuth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
-
+  useAuthListener();
   return (
     <QueryClientProvider client={queryClient}>
       {children}

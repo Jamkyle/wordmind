@@ -1,5 +1,6 @@
 import ButtonCreateRoom from "@/components/ButtonCreateRoom";
 import { GameList } from "@/components/GameList";
+import UserInput from "@/components/UserInput";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
         <p className="text-center text-lg">
           Create a room and invite your friends
         </p>
+        <UserInput />
         <ButtonCreateRoom />
         <GameList />
       </main>
