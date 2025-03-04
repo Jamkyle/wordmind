@@ -1,11 +1,15 @@
 import { z } from "zod";
-import { PlayerSchema } from "./player";
+import { GameState } from "./game";
 
 export const RoomSchema = z.object({
   id: z.string(),
   createdAt: z.date(),
-  players: z.array(PlayerSchema),
-  status: z.enum(["waiting", "playing", "finished"]),
+  status: z.enum(["waiting", "ready", "playing", "finished"]),
 });
 
 export type Room = z.infer<typeof RoomSchema>;
+
+export type RoomAction = {
+  setGameStatus: (status: Room["status"]) => void;
+  setGameData: (data: Partial<GameState>) => void; 
+};
