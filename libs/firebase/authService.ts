@@ -1,10 +1,13 @@
-import { signInAnonymously } from "firebase/auth";
+import { signInAnonymously, updateProfile } from "firebase/auth";
 import { auth } from ".";
 
-// Fonction pour connecter anonymement un joueur (optionnel)
-export const signIn = async () => {
+export const signIn = async ({ username }: { username: string }) => {
   try {
-    await signInAnonymously(auth);
+    const { user } = await signInAnonymously(auth);
+    await updateProfile(user, {
+      displayName: username,
+    });
+    return user;
   } catch (error) {
     console.error("Erreur de connexion anonyme :", error);
   }

@@ -24,14 +24,13 @@ export async function getRooms(): Promise<Room[]> {
 
 export function getRealTimeRooms(cb: (rooms: Room[]) => void): () => void {
   const roomsRef = collection(db, "games");
-  const unsubscribe = onSnapshot(roomsRef, (snapshot) => {
+  return onSnapshot(roomsRef, (snapshot) => {
     const updatedRooms = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...(doc.data() as Omit<Room, "id">),
     }));
     cb(updatedRooms);
   });
-  return unsubscribe;
 }
 
 export async function getRoomById(id: string) {
@@ -48,19 +47,21 @@ export async function deleteRoom(id: string) {
   await setDoc(doc(db, "games", id), { status: "finished" });
 }
 
-export async function joinRoom(roomId: string, player?: Player) {
-  const roomRef = doc(db, "games", roomId);
-  const roomDoc = await getDoc(roomRef);
-  const roomData = roomDoc.data();
+// export async function joinRoom(roomId: string, player?: Player | null) {
+//   const roomRef = doc(db, "games", roomId);
+//   const roomDoc = await getDoc(roomRef);
+//   const roomData = roomDoc.data();
 
-  const existingPlayers = roomData?.players || [];
+//   const existingPlayers = roomData?.players || [];
 
-  const updatedPlayers = [...new Set([...existingPlayers, player])];
+//   const updatedPlayers = existingPlayers.some((p: Player) => p.id === player?.id)
+//   ? existingPlayers // Si le joueur existe déjà, on ne change rien
+//   : [...existingPlayers, player];
 
-  await updateDoc(roomRef, {
-    players: updatedPlayers,
-  });
-}
+//   await updateDoc(roomRef, {
+//     players: updatedPlayers,
+//   });
+// }
 
 export async function leaveRoom(roomId: string, player: Player) {
   const roomRef = doc(db, "games", roomId);
